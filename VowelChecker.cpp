@@ -16,5 +16,8 @@ int main(){
 	{
 	    cout<<vowel<<" is not vowel";	
 	}
+
+        system("pause");
+	return 0;
 	
 }
