@@ -12,7 +12,7 @@ int main()
     cout<<"Choosse Operation: ";
     cin>>option;
     
-    if(option == 1)
+        if(option == 1)
 	{
     	cout<<"Enter first number: ";
     	cin>>op1;
