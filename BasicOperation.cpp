@@ -59,5 +59,7 @@ int main()
 		system("cls");
 		main();
 	}
+	
 	system("pause");
+        return 0;
 }
