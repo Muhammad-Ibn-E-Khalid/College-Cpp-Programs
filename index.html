@@ -1,75 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Download Website</title>
+    <title>File Downloader</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
-        .container {
-            margin: 50px;
+        #container1 {
+            width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin-top: 50px;
         }
-        select {
+
+
+        #container2 {
+            width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        #container3 {
+            width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+        #dropdown {
+            margin: 0px;
+            width: 100%;
             padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             font-size: 16px;
         }
-        button {
+
+        #repositoryLink {
+            display: block;
             padding: 10px 20px;
-            font-size: 16px;
             background-color: #007BFF;
-            color: white;
-            border: none;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+        }
+        #lastCommit {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        #downloadButton {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>File Download Website</h1>
-        <label for="fileType">Select a file type:</label>
-<select id="fileType">
-    <option value="all">All</option>
-    <option value="cpp">Cpp</option>
-    <option value="presentation">Presentation</option>
-</select>
-<button id="downloadButton">Download</button>
+    <div id="container1">
+        <h1>All College Assigment of CPP</h1>
+    </div>
+
+
+    <div id="container2">
+        <h1>File Downloader</h1>
+        Choose Option
+        <br>
+        <select id="dropdown">
+            <option value="all">All Files</option>
+            <option value="cpp">Only C++ Files</option>
+            <option value="presentation">Only Presentation Files</option>
+        </select>
+        <br>
+        <br>
+        <button id="downloadButton">Download</button>
+    
+        <p>You can access the source code on GitHub directly by clicking:</p>
+        <a id="repositoryLink" href="https://github.com/Muhammad-Ibn-E-Khalid/College-Cpp-Programs.git">Access Source cCode</a>
+        <p id="lastCommit">Last update on: <span id="lastCommitTime">Loading...</span></p>
+    </div>
     </div>
 
     <script>
-        // Define the file URLs for each option
-        const fileUrls = {
-            all: 'pp.png',
-            cpp: 'pp.png',
-            presentation: 'pp.png',
+        document.getElementById("downloadButton").addEventListener("click", function() {
+            var selectedOption = document.getElementById("dropdown").value;
 
-            //all: '/path/to/all_files.zip',
-            //cpp: '/path/to/cpp_files.zip',
-            //presentation: '/path/to/presentation_files.zip',
-        };
-
-        // Get the dropdown and download button elements
-        const fileTypeDropdown = document.getElementById('fileType');
-        const downloadButton = document.getElementById('downloadButton');
-
-        // Add a click event listener to the download button
-        downloadButton.addEventListener('click', () => {
-            const selectedFileType = fileTypeDropdown.value;
-            const fileUrl = fileUrls[selectedFileType];
-
-            if (fileUrl) {
-                // Create a temporary link element for downloading
-                const downloadLink = document.createElement('a');
-                downloadLink.href = fileUrl;
-                downloadLink.download = `${selectedFileType}_files.zip`;
-                downloadLink.style.display = 'none';
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                document.body.removeChild(downloadLink);
+            if (selectedOption === "all") {
+                // Download all files
+                window.location.href = "path_to_all_files.zip";
+            } else if (selectedOption === "cpp") {
+                // Download C++ files
+                window.location.href = "path_to_cpp_files.zip";
+            } else if (selectedOption === "presentation") {
+                // Download Presentation files
+                window.location.href = "path_to_presentation_files.zip";
             }
         });
+
+
+
+
+
+
+        // Fetch and display the last commit time from the GitHub API
+        fetch("https://api.github.com/repos/Muhammad-Ibn-E-Khalid/College-Cpp-Programs/git/refs/heads/master")
+            .then(response => response.json())
+            .then(data => {
+                const lastCommitTime = data.object.committer.date;
+                const lastCommitTimeElement = document.getElementById("lastCommitTime");
+                lastCommitTimeElement.textContent = new Date(lastCommitTime).toLocaleString();
+            })
+            .catch(error => console.error(error));
+   
+
+
+
     </script>
 </body>
 </html>
