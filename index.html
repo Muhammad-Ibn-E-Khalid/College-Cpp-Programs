@@ -17,7 +17,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             padding: 20px;
-            margin-top: 50px;
+            margin-top: 10px;
         }
 
 
@@ -123,17 +123,44 @@
 
 
 
+      // Replace 'YOUR_PAT_HERE' with your Personal Access Token
+      const PAT = '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';
+        const repository = 'Muhammad-Ibn-E-Khalid/College-Cpp-Programs';
 
-
-        // Fetch and display the last commit time from the GitHub API
-        fetch("https://api.github.com/repos/Muhammad-Ibn-E-Khalid/College-Cpp-Programs/git/refs/heads/master")
-            .then(response => response.json())
-            .then(data => {
-                const lastCommitTime = data.object.committer.date;
-                const lastCommitTimeElement = document.getElementById("lastCommitTime");
-                lastCommitTimeElement.textContent = new Date(lastCommitTime).toLocaleString();
-            })
-            .catch(error => console.error(error));
+        // Fetch and display the last commit time using GitHub GraphQL API
+        fetch('https://api.github.com/graphql', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${PAT}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: `
+                    {
+                        repository(owner: "Muhammad-Ibn-E-Khalid", name: "College-Cpp-Programs") {
+                            defaultBranchRef {
+                                target {
+                                    ... on Commit {
+                                        history(first: 1) {
+                                            nodes {
+                                                committedDate
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                `,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            const lastCommitTime = data.data.repository.defaultBranchRef.target.history.nodes[0].committedDate;
+            const lastCommitTimeElement = document.getElementById('lastCommitTime');
+            lastCommitTimeElement.textContent = new Date(lastCommitTime).toLocaleString();
+        })
+        .catch(error => console.error(error));
    
 
 
