@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Download Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            margin: 50px;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>File Download Website</h1>
+        <label for="fileType">Select a file type:</label>
+        <select id="fileType">
+            <option value="all">All</option>
+            <option value="cpp">Cpp</option>
+            <option value="presentation">Presentation</option>
+        </select>
+        <button id="downloadButton">Download</button>
+    </div>
+
+    <script>
+        // Define the file URLs for each option
+        const fileUrls = {
+            all: 's.jpg',
+            cpp: 's.jpg',
+            presentation: 's.jpg',
+
+            //all: '/path/to/all_files.zip',
+            //cpp: '/path/to/cpp_files.zip',
+            //presentation: '/path/to/presentation_files.zip',
+        };
+
+        // Get the dropdown and download button elements
+        const fileTypeDropdown = document.getElementById('fileType');
+        const downloadButton = document.getElementById('downloadButton');
+
+        // Add a click event listener to the download button
+        downloadButton.addEventListener('click', () => {
+            const selectedFileType = fileTypeDropdown.value;
+            const fileUrl = fileUrls[selectedFileType];
+
+            if (fileUrl) {
+                // Create a temporary link element for downloading
+                const downloadLink = document.createElement('a');
+                downloadLink.href = fileUrl;
+                downloadLink.download = `${selectedFileType}_files.zip`;
+                downloadLink.style.display = 'none';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            }
+        });
+    </script>
+</body>
+</html>
