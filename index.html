@@ -28,7 +28,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             padding: 20px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         #container3 {
@@ -41,7 +41,11 @@
             margin-top: 50px;
         }
 
-        h1 {
+        h1{
+            color: #007BFF;
+        }
+
+        h2{
             color: #007BFF;
         }
         #dropdown {
@@ -81,7 +85,7 @@
 </head>
 <body>
     <div id="container1">
-        <h1>All College Assigment of CPP</h1>
+        <h2>Computer Science All Assigments</h2>
     </div>
 
 
@@ -122,48 +126,26 @@
 
 
 
-
-      // Replace 'YOUR_PAT_HERE' with your Personal Access Token
-      const PAT = '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';
+        // Define the repository and branch
         const repository = 'Muhammad-Ibn-E-Khalid/College-Cpp-Programs';
+        const branch = 'main'; // Replace with the actual branch name
 
-        // Fetch and display the last commit time using GitHub GraphQL API
-        fetch('https://api.github.com/graphql', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${PAT}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query: `
-                    {
-                        repository(owner: "Muhammad-Ibn-E-Khalid", name: "College-Cpp-Programs") {
-                            defaultBranchRef {
-                                target {
-                                    ... on Commit {
-                                        history(first: 1) {
-                                            nodes {
-                                                committedDate
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                `,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            const lastCommitTime = data.data.repository.defaultBranchRef.target.history.nodes[0].committedDate;
-            const lastCommitTimeElement = document.getElementById('lastCommitTime');
-            lastCommitTimeElement.textContent = new Date(lastCommitTime).toLocaleString();
-        })
-        .catch(error => console.error(error));
-   
-
-
+        // Fetch and display the last commit time using the GitHub API for public repositories
+        fetch(`https://api.github.com/repos/${repository}/commits?sha=${branch}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0 && data[0].commit && data[0].commit.author && data[0].commit.author.date) {
+                    const lastCommitTime = new Date(data[0].commit.author.date);
+                    const lastCommitTimeElement = document.getElementById('lastCommitTime');
+                    lastCommitTimeElement.textContent = lastCommitTime.toLocaleString();
+                } else {
+                    document.getElementById('lastCommitTime').textContent = 'N/A';
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById('lastCommitTime').textContent = 'Error';
+            });
 
     </script>
 </body>
