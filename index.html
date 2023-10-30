@@ -1,150 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>File Downloader</title>
+    <title>Custom Dialog Box</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #24758e;
-            margin: 0;
-            padding: 0;
-        }
-        #container1 {
-            width: 400px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        /* Define the styles for the custom dialog */
+        .custom-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
             padding: 20px;
-            margin-top: 15px;
-        }
-
-
-        #container2 {
-            width: 400px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            margin-top: 10px;
-        }
-
-        #container3 {
-            width: 400px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            margin-top: 50px;
-        }
-
-        h1,h2{
-            color: #007BFF;
-        }
-        #dropdown {
-            margin: 0px;
-            width: 100%;
-            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px;
-        }
-
-        #repositoryLink {
-            display: block;
-            padding: 7px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        #lastCommit {
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        #downloadButton {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <div id="container1">
-        <h2>Computer Science All Assigments</h2>
-    </div>
+    <button onclick="showCustomDialog()">Show Custom Dialog</button>
 
-
-    <div id="container2">
-        <h1>File Downloader</h1>
-        Choose Option
-        <br>
-        <select id="dropdown">
-            <option value="all">All Files</option>
-            <option value="cpp">Only C++ Files</option>
-            <option value="presentation">Only Presentation Files</option>
-        </select>
-        <br>
-        <br>
-        <button id="downloadButton">Download</button>
-    
-        <p>You can access the source code on GitHub directly by clicking:</p>
-        <a id="repositoryLink" target="_blank" href="https://github.com/Muhammad-Ibn-E-Khalid/College-Cpp-Programs.git">Access Source Code</a>
-        <p id="lastCommit" style="background-color: #4d4d4d7f; color: #fff;  border-radius: 5px;     padding: 1px;">
-            Last update on: <span id="lastCommitTime">Loading...</span>
-        </p>
-            </div>
+    <!-- Define the custom dialog element -->
+    <div id="customDialog" class="custom-dialog">
+        <h2>Your Custom Messenger</h2>
+        <p>I'm delighted that you found my work beneficial!</p>
+        <button onclick="hideCustomDialog()">Close</button>
     </div>
 
     <script>
-        document.getElementById("downloadButton").addEventListener("click", function() {
-            var selectedOption = document.getElementById("dropdown").value;
+        function showCustomDialog() {
+            document.getElementById("customDialog").style.display = "block";
+        }
 
-            if (selectedOption === "all") {
-                // Download all files
-                window.location.href = "path_to_all_files.zip";
-            } else if (selectedOption === "cpp") {
-                // Download C++ files
-                window.location.href = "path_to_cpp_files.zip";
-            } else if (selectedOption === "presentation") {
-                // Download Presentation files
-                window.location.href = "path_to_presentation_files.zip";
-            }
-        });
-
-
-
-        // Define the repository and branch
-        const repository = 'Muhammad-Ibn-E-Khalid/College-Cpp-Programs';
-        const branch = 'main'; // Replace with the actual branch name
-
-        // Fetch and display the last commit time using the GitHub API for public repositories
-        fetch(`https://api.github.com/repos/${repository}/commits?sha=${branch}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length > 0 && data[0].commit && data[0].commit.author && data[0].commit.author.date) {
-                    const lastCommitTime = new Date(data[0].commit.author.date);
-                    const lastCommitTimeElement = document.getElementById('lastCommitTime');
-                    lastCommitTimeElement.textContent = lastCommitTime.toLocaleString();
-                } else {
-                    document.getElementById('lastCommitTime').textContent = 'N/A';
-                }
-            })
-            .catch(error => {
-                console.error(error);
-                document.getElementById('lastCommitTime').textContent = 'Error';
-            });
-
+        function hideCustomDialog() {
+            document.getElementById("customDialog").style.display = "none";
+        }
     </script>
 </body>
 </html>
